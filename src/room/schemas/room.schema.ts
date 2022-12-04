@@ -6,20 +6,20 @@ export type RoomDocument = mongoose.HydratedDocument<Room>;
 
 @Schema()
 export class Room {
-  @Prop()
+  @Prop({ type: String, required: true })
   roomName: string;
-  @Prop()
-  description: string;
-  @Prop()
-  listService: string[];
-  @Prop()
+  @Prop({ type: String, required: false })
+  description?: string;
+  @Prop({ type: [String], required: false })
+  listService?: string[];
+  @Prop({ type: String, required: true })
   address: string;
-  @Prop()
+  @Prop({ type: Number, required: true })
   price: number;
-  @Prop()
+  @Prop({ type: String, required: true })
   image: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  user: User;
+  user: string | null;
 }
 
 export const RoomSchema = SchemaFactory.createForClass(Room);

@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/users.module';
 import { RoomModule } from './room/room.module';
+import { InvoiceModule } from './invoice/invoice.module';
 import 'dotenv/config';
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import 'dotenv/config';
     ),
     UserModule,
     RoomModule,
+    InvoiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
