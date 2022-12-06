@@ -34,7 +34,7 @@ export class UserService {
     try {
       const user = await this.userModel
         .findById(userId)
-        .select(['-password -role']);
+        .select('-password -role');
       return user;
     } catch (error) {
       return 'Something failed';
@@ -43,7 +43,7 @@ export class UserService {
 
   async getAllUsers(): Promise<User[] | string> {
     try {
-      return await this.userModel.find().select(['-password -role']);
+      return await this.userModel.find().select('-password -role');
     } catch (error) {
       return 'Something failed';
     }
@@ -55,7 +55,7 @@ export class UserService {
     try {
       return await this.userModel
         .findOne({ phoneNumber: phoneNumber })
-        .select(['-password -role']);
+        .select('-password -role');
     } catch (error) {}
     return 'Something failed';
   }

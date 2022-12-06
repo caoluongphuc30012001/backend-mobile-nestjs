@@ -27,7 +27,7 @@ export class RoomService {
           .find({
             user: null,
           })
-          .select(['-description -user']);
+          .select('-description -user');
 
         return data;
       } else if (status === 'owned') {
@@ -35,13 +35,11 @@ export class RoomService {
           .find({
             user: { $ne: null },
           })
-          .select(['-description -user']);
+          .select('-description -user');
 
         return data;
       } else {
-        const data = await this.roomModel
-          .find({})
-          .select(['-description -user']);
+        const data = await this.roomModel.find({}).select('-description -user');
 
         return data;
       }
