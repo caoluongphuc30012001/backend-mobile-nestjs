@@ -1,3 +1,6 @@
+import { RolesGuard } from './../auth/guards/roles.guard';
+import { Role } from './../auth/enums/role.enum';
+import { JwtAuthGuard } from './../auth/guards/jwt.guard';
 import { DeleteRoom } from './dtos/delete-room.dto';
 import { ModifyRoom } from './dtos/modify-room.dto';
 import { CreateRoom } from './dtos/create-room.dto';
@@ -9,16 +12,25 @@ import {
   Param,
   Query,
   Res,
+  Headers,
 } from '@nestjs/common';
 import { Get, Post, Put, Delete } from '@nestjs/common';
 import { Response } from 'express';
+import { UseGuards } from '@nestjs/common/decorators';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @Controller('rooms')
 export class RoomController {
   constructor(private roomService: RoomService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
-  async getListRoom(@Query('status') status: string, @Res() res: Response) {
+  async getListRoom(
+    @Query('status') status: string,
+    @Res() res: Response,
+    @Body() body: any,
+  ) {
+    console.log(body.tokenParse);
     const data = await this.roomService.getListRoom(status);
     res.status(HttpStatus.OK).send({
       code: 0,
@@ -26,6 +38,7 @@ export class RoomController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:roomId')
   async getRoomInformation(
     @Param('roomId') roomId: string,
@@ -38,13 +51,17 @@ export class RoomController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('/')
+  @Roles(Role.Admin)
   async createRoom(@Body() roomPayload: CreateRoom, @Res() res: Response) {
     const data = await this.roomService.createRoom(roomPayload);
     res.status(HttpStatus.OK).send({ code: 0, data });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Put('/')
+  @Roles(Role.Admin)
   async updateRoomInformation(
     @Body() roomPayload: ModifyRoom,
     @Res() res: Response,
@@ -56,7 +73,9 @@ export class RoomController {
     });
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete('/')
+  @Roles(Role.Admin)
   async deleteRoom(@Body() body: DeleteRoom, @Res() res: Response) {
     const data = await this.roomService.deleteRoom(body.roomId);
     res.status(HttpStatus.OK).send({

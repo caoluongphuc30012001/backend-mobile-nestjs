@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { info } from 'console';
 
 @Injectable()
 export class UserService {
@@ -20,8 +21,8 @@ export class UserService {
         return 'This phonenumber was registered';
       }
 
-      const newUser = await this.userModel.create(userPayload);
-      newUser.password = await bcrypt.hash(newUser.password, 10);
+      userPayload.password = await bcrypt.hash(userPayload.password, 10);
+      await this.userModel.create(userPayload);
       return 'Create user successfully';
     } catch (error) {
       return 'Something failed';
@@ -43,7 +44,7 @@ export class UserService {
 
   async getAllUsers(): Promise<User[] | string> {
     try {
-      return await this.userModel.find().select('-password -role');
+      return await this.userModel.find({});
     } catch (error) {
       return 'Something failed';
     }
@@ -69,6 +70,22 @@ export class UserService {
       return 'Modify user information successfully';
     } catch (error) {
       return 'Something failed';
+    }
+  }
+
+  async validate(phoneNumber: string, password: string): Promise<any> {
+    try {
+      const user = await this.userModel.findOne({
+        phoneNumber: phoneNumber,
+      });
+      if (user) {
+        const check = await bcrypt.compare(password, user.password);
+        if (check) return user;
+        else return null;
+      }
+      return null;
+    } catch (error) {
+      return null;
     }
   }
 }

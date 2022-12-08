@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../auth/guards/jwt.guard';
 import { User } from './schemas/users.schema';
 import { UserService } from './users.service';
 import {
@@ -11,11 +12,22 @@ import {
   Param,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { UseGuards } from '@nestjs/common/decorators';
 
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
+  @UseGuards(JwtAuthGuard)
+  @Get('/')
+  async getAllUsers(@Res() res: Response) {
+    const data = await this.userService.getAllUsers();
+    res.status(HttpStatus.OK).send({
+      code: 0,
+      data: data,
+    });
+  }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:userId')
   async getUserInformation(
     @Param('userId') userId: string,
@@ -28,21 +40,13 @@ export class UserController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   async findUser(
     @Query('phoneNumber') phoneNumber: string,
     @Res() res: Response,
   ) {
     const data = await this.userService.findUser(phoneNumber);
-    res.status(HttpStatus.OK).send({
-      code: 0,
-      data: data,
-    });
-  }
-
-  @Get('/')
-  async getAllUsers(@Res() res: Response) {
-    const data = await this.userService.getAllUsers();
     res.status(HttpStatus.OK).send({
       code: 0,
       data: data,
