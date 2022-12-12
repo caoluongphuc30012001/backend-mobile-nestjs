@@ -27,11 +27,31 @@ export class RoomController {
   @Get('/')
   async getListRoom(
     @Query('status') status: string,
+    @Query('sortBy') sortBy: string,
+    @Query('sortType') sortType: string,
+    @Query('priceFrom') priceFrom: string,
+    @Query('priceTo') priceTo: string,
+    @Query('service') service: string,
     @Res() res: Response,
-    @Body() body: any,
   ) {
-    console.log(body.tokenParse);
-    const data = await this.roomService.getListRoom(status);
+    const data = await this.roomService.getListRoom({
+      status,
+      sortBy,
+      sortType,
+      priceFrom,
+      priceTo,
+      service,
+    });
+    res.status(HttpStatus.OK).send({
+      code: 0,
+      data,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/promos')
+  async getPromos(@Res() res: Response) {
+    const data = await this.roomService.getPromos();
     res.status(HttpStatus.OK).send({
       code: 0,
       data,

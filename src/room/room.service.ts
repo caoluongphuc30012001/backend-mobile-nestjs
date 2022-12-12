@@ -20,12 +20,33 @@ export class RoomService {
     }
   }
 
-  async getListRoom(status: string): Promise<Room[] | string | undefined> {
+  async getListRoom({
+    status,
+    sortBy = 'roomName',
+    sortType = 'desc',
+    priceFrom = 0,
+    priceTo = Number.MAX_SAFE_INTEGER,
+    service,
+  }: any): Promise<Room[] | string | undefined> {
     try {
+      const props = service
+        ? {
+            listService: service,
+          }
+        : {};
+      const typeSort = sortType === 'desc' ? -1 : 1;
       if (status === 'available') {
         const data = await this.roomModel
           .find({
             user: null,
+            price: {
+              $gte: priceFrom,
+              $lte: priceTo,
+            },
+            ...props,
+          })
+          .sort({
+            [sortBy]: typeSort,
           })
           .select('-description -user');
 
@@ -34,15 +55,51 @@ export class RoomService {
         const data = await this.roomModel
           .find({
             user: { $ne: null },
+            price: {
+              $gte: priceFrom,
+              $lte: priceTo,
+            },
+            ...props,
           })
-          .select('-description -user');
+          .select('-description -user')
+          .sort({
+            [sortBy]: typeSort,
+          });
 
         return data;
       } else {
-        const data = await this.roomModel.find({}).select('-description -user');
+        const data = await this.roomModel
+          .find({
+            price: {
+              $gte: priceFrom,
+              $lte: priceTo,
+            },
+            ...props,
+          })
+          .select('-description -user')
+          .sort({
+            [sortBy]: typeSort,
+          });
 
         return data;
       }
+    } catch (error) {
+      return 'Something failed';
+    }
+  }
+
+  async getPromos(): Promise<Room[] | string | undefined> {
+    try {
+      const data = await this.roomModel
+        .find({
+          user: null,
+        })
+        .sort({
+          price: 1,
+        })
+        .limit(5)
+        .select('-description -user');
+      return data;
     } catch (error) {
       return 'Something failed';
     }
