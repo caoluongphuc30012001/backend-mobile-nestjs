@@ -37,7 +37,6 @@ export class AuthService {
   async refreshToken(oldedToken: any) {
     try {
       const data = this.jwtService.verify(oldedToken);
-      console.log(data);
       if (data) {
         const accessToken = this.jwtService.sign(
           {

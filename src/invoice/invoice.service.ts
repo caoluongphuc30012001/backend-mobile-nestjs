@@ -1,3 +1,6 @@
+import { Notice } from './../notice/schemas/notice.schema';
+import { NoticeType } from './../notice/enums/notice-type.enum';
+import { NoticeService } from './../notice/notice.service';
 import { ModifyInvoice } from './dtos/modify-invoice.dto';
 import { Invoice, InvoiceDocument } from './schemas/invoice.schema';
 import { Injectable } from '@nestjs/common';
@@ -9,12 +12,27 @@ export class InvoiceService {
   constructor(
     @InjectModel(Invoice.name)
     private readonly invoiceModel: Model<InvoiceDocument>,
+    private readonly noticeService: NoticeService,
   ) {}
 
   async createInvoice(invoicePayload: Invoice): Promise<string> {
     try {
-      await this.invoiceModel.create(invoicePayload);
-      return 'Create invoice successfully';
+      const newInvoice = await this.invoiceModel.create(invoicePayload);
+      //Thêm thông báo
+      const data: any = await newInvoice.populate({
+        path: 'room',
+        populate: {
+          path: 'user',
+        },
+      });
+      const noticePayload: Notice = {
+        noticeType: NoticeType.Invoice,
+        invoice: newInvoice._id.toString(),
+        description: 'Bạn có một hóa đơn mới',
+        user: data.toObject().room?.user?._id,
+      };
+      const rs = await this.noticeService.createNotice(noticePayload);
+      return rs;
     } catch (error) {
       return 'Something failed';
     }

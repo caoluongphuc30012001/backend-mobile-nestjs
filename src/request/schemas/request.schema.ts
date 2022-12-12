@@ -10,7 +10,11 @@ export class Request {
   titleRequest: string;
   @Prop({ type: String, required: true })
   description: string;
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Room.name })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Room.name,
+    required: true,
+  })
   room: string;
 }
 

@@ -1,3 +1,6 @@
+import { NoticeType } from './../notice/enums/notice-type.enum';
+import { Notice } from './../notice/schemas/notice.schema';
+import { NoticeService } from './../notice/notice.service';
 import { ModifyRoom } from './dtos/modify-room.dto';
 import { CreateRoom } from './dtos/create-room.dto';
 import { Model } from 'mongoose';
@@ -9,6 +12,7 @@ import { InjectModel } from '@nestjs/mongoose';
 export class RoomService {
   constructor(
     @InjectModel(Room.name) private readonly roomModel: Model<RoomDocument>,
+    private readonly noticeService: NoticeService,
   ) {}
 
   async createRoom(roomCreate: CreateRoom): Promise<string> {
@@ -127,6 +131,25 @@ export class RoomService {
     try {
       await this.roomModel.findByIdAndDelete(roomId);
       return 'Delete room successfully';
+    } catch (error) {
+      return 'Something failed';
+    }
+  }
+
+  async rentRoom(roomId: string, userId: string): Promise<string> {
+    try {
+      await this.roomModel.findByIdAndUpdate(roomId, {
+        user: userId,
+      });
+
+      const noticePayload: Notice = {
+        noticeType: NoticeType.Rent,
+        user: process.env.ADMIN_ID as string,
+        description: 'Thuê phòng',
+        room: roomId,
+      };
+      const rs = await this.noticeService.createNotice(noticePayload);
+      return rs;
     } catch (error) {
       return 'Something failed';
     }

@@ -7,6 +7,7 @@ import { UserModule } from './users/users.module';
 import { RoomModule } from './room/room.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { RequestModule } from './request/request.module';
+import { NoticeModule } from './notice/notice.module';
 import 'dotenv/config';
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import 'dotenv/config';
     RoomModule,
     InvoiceModule,
     RequestModule,
+    NoticeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

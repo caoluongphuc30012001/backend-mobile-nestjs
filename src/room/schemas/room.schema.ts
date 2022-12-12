@@ -18,7 +18,11 @@ export class Room {
   price: number;
   @Prop({ type: String, required: true })
   image: string;
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    required: true,
+  })
   user: string | null;
 }
 

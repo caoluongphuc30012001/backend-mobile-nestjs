@@ -1,3 +1,4 @@
+import { RentRoom } from './dtos/rent-room.dto';
 import { RolesGuard } from './../auth/guards/roles.guard';
 import { Role } from './../auth/enums/role.enum';
 import { JwtAuthGuard } from './../auth/guards/jwt.guard';
@@ -101,6 +102,16 @@ export class RoomController {
     res.status(HttpStatus.OK).send({
       code: 0,
       data: data,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('rent-room')
+  async rentRoom(@Body() { roomId, userId }: RentRoom, @Res() res: Response) {
+    const data = await this.roomService.rentRoom(roomId, userId);
+    res.status(HttpStatus.OK).send({
+      code: 0,
+      data,
     });
   }
 }

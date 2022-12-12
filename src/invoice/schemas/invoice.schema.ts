@@ -16,7 +16,11 @@ export class Invoice {
   priceOfElectric: number;
   @Prop({ type: Boolean, default: false })
   isPay?: boolean;
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Room.name })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Room.name,
+    required: true,
+  })
   room: string;
   @Prop({ type: Date, required: true })
   startDate: Date;
