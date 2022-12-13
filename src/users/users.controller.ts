@@ -1,3 +1,4 @@
+import { RolesGuard } from './../auth/guards/roles.guard';
 import { JwtAuthGuard } from './../auth/guards/jwt.guard';
 import { User } from './schemas/users.schema';
 import { UserService } from './users.service';
@@ -13,12 +14,15 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { UseGuards } from '@nestjs/common/decorators';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/enums/role.enum';
 
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/')
+  @Roles(Role.Admin)
   async getAllUsers(@Res() res: Response) {
     const data = await this.userService.getAllUsers();
     res.status(HttpStatus.OK).send({
