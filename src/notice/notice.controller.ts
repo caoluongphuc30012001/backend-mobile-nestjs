@@ -17,4 +17,9 @@ export class NoticeController {
       data,
     });
   }
+
+  @Get('/test-socket')
+  async testSocket() {
+    await this.noticeService.testSocket();
+  }
 }

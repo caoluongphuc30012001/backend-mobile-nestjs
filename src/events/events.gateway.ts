@@ -1,9 +1,11 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
-
-@WebSocketGateway()
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import 'dotenv/config';
+@WebSocketGateway({ cors: true })
 export class EventsGateway {
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+  @WebSocketServer() server: any;
+  pushNotify(userId: string): void {
+    this.server.emit(userId, {
+      message: 'You have a new notification',
+    });
   }
 }
