@@ -1,3 +1,4 @@
+import { Room } from './../room/schemas/room.schema';
 import { UserDocument, User } from './schemas/users.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -43,7 +44,48 @@ export class UserService {
 
   async getAllUsers(): Promise<User[] | string> {
     try {
-      return await this.userModel.find({});
+      // return await this.userModel.find({});
+      // Role.aggregate([
+      //   { "$match": { "name" : "Admin" }},
+      //   { "$lookup": {
+      //     "from": "users",
+      //     "let": { "roleId": "$_id" },
+      //     "pipeline": [
+      //       { "$match": { "$expr": { "$eq": ["$roles", "$$roleId"] } } }
+      //     ],
+      //     "as": "users"
+      //   }}
+      // ])
+      const data = await this.userModel.aggregate([
+        {
+          $lookup: {
+            from: 'rooms',
+            as: 'rooms',
+            let: {
+              userId: '$_id',
+            },
+            pipeline: [
+              {
+                $match: { $expr: { $eq: ['$user', '$$userId'] } },
+              },
+              {
+                $project: {
+                  roomName: 1,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $project: {
+            fullName: 2,
+            birthDate: 3,
+            phoneNumber: 4,
+            rooms: 5,
+          },
+        },
+      ]);
+      return data;
     } catch (error) {
       return 'Something failed';
     }
