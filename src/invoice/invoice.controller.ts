@@ -49,7 +49,7 @@ export class InvoiceController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/')
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async createInvoice(@Body() invoicePayload: Invoice, @Res() res: Response) {
     const data = await this.invoiceService.createInvoice(invoicePayload);
     res.status(HttpStatus.CREATED).send({
@@ -60,7 +60,7 @@ export class InvoiceController {
 
   @UseGuards(JwtAuthGuard)
   @Put('/')
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async updateInvoice(
     @Body() invoicePayload: ModifyInvoice,
     @Res() res: Response,
@@ -74,7 +74,7 @@ export class InvoiceController {
 
   @UseGuards(JwtAuthGuard)
   @Delete('/')
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async deleteInvoice(
     @Body() deleteInvoice: DeleteInvoice,
     @Res() res: Response,

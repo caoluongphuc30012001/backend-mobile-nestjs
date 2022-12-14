@@ -74,7 +74,7 @@ export class RoomController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('/')
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async createRoom(@Body() roomPayload: CreateRoom, @Res() res: Response) {
     const data = await this.roomService.createRoom(roomPayload);
     res.status(HttpStatus.OK).send({ code: 0, data });
@@ -82,7 +82,7 @@ export class RoomController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Put('/')
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async updateRoomInformation(
     @Body() roomPayload: ModifyRoom,
     @Res() res: Response,
@@ -96,7 +96,7 @@ export class RoomController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete('/')
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async deleteRoom(@Body() body: DeleteRoom, @Res() res: Response) {
     const data = await this.roomService.deleteRoom(body.roomId);
     res.status(HttpStatus.OK).send({

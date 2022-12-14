@@ -22,7 +22,7 @@ export class UserController {
   constructor(private userService: UserService) {}
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/')
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async getAllUsers(@Res() res: Response) {
     const data = await this.userService.getAllUsers();
     res.status(HttpStatus.OK).send({
