@@ -21,7 +21,6 @@ export class Room {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: User.name,
-    required: true,
   })
   user: string | null;
 }
