@@ -4,7 +4,7 @@ import { NoticeService } from './notice.service';
 import { Controller, Get, Res, HttpStatus, Query } from '@nestjs/common';
 import { Response } from 'express';
 
-@Controller('notices')
+@Controller('notifications')
 export class NoticeController {
   constructor(private noticeService: NoticeService) {}
 
