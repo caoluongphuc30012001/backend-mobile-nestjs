@@ -33,9 +33,7 @@ export class UserService {
     userId: string,
   ): Promise<User | undefined | null | string> {
     try {
-      const user = await this.userModel
-        .findById(userId)
-        .select('-password -role');
+      const user = await this.userModel.findById(userId).select('-password');
       return user;
     } catch (error) {
       return 'Something failed';
@@ -44,18 +42,6 @@ export class UserService {
 
   async getAllUsers(): Promise<User[] | string> {
     try {
-      // return await this.userModel.find({});
-      // Role.aggregate([
-      //   { "$match": { "name" : "Admin" }},
-      //   { "$lookup": {
-      //     "from": "users",
-      //     "let": { "roleId": "$_id" },
-      //     "pipeline": [
-      //       { "$match": { "$expr": { "$eq": ["$roles", "$$roleId"] } } }
-      //     ],
-      //     "as": "users"
-      //   }}
-      // ])
       const data = await this.userModel.aggregate([
         {
           $lookup: {
@@ -82,6 +68,7 @@ export class UserService {
             birthDate: 3,
             phoneNumber: 4,
             rooms: 5,
+            role: 1,
           },
         },
       ]);
@@ -97,7 +84,7 @@ export class UserService {
     try {
       return await this.userModel
         .findOne({ phoneNumber: phoneNumber })
-        .select('-password -role');
+        .select('-password');
     } catch (error) {}
     return 'Something failed';
   }
