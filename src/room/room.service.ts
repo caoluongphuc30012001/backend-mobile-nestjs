@@ -70,7 +70,8 @@ export class RoomService {
               $gte: priceFrom,
               $lte: priceTo,
             },
-            ...props,
+            ...propListservice,
+            ...propUser,
           })
           .select('-description -user')
           .sort({
@@ -85,7 +86,8 @@ export class RoomService {
               $gte: priceFrom,
               $lte: priceTo,
             },
-            ...props,
+            ...propListservice,
+            ...propUser,
           })
           .select('-description -user')
           .sort({
