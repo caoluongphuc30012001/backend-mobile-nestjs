@@ -31,11 +31,17 @@ export class RoomService {
     priceFrom = 0,
     priceTo = Number.MAX_SAFE_INTEGER,
     service,
+    userId,
   }: any): Promise<Room[] | string | undefined> {
     try {
-      const props = service
+      const propListservice = service
         ? {
             listService: service,
+          }
+        : {};
+      const propUser = userId
+        ? {
+            user: userId,
           }
         : {};
       const typeSort = sortType === 'desc' ? -1 : 1;
@@ -47,7 +53,8 @@ export class RoomService {
               $gte: priceFrom,
               $lte: priceTo,
             },
-            ...props,
+            ...propListservice,
+            ...propUser,
           })
           .sort({
             [sortBy]: typeSort,

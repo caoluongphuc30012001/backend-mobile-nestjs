@@ -33,6 +33,7 @@ export class RoomController {
     @Query('priceFrom') priceFrom: string,
     @Query('priceTo') priceTo: string,
     @Query('service') service: string,
+    @Query('userId') userId: string,
     @Res() res: Response,
   ) {
     const data = await this.roomService.getListRoom({
@@ -42,6 +43,7 @@ export class RoomController {
       priceFrom,
       priceTo,
       service,
+      userId,
     });
     res.status(HttpStatus.OK).send({
       code: 0,
