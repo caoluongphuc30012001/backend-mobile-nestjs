@@ -16,7 +16,7 @@ export class Room {
   address: string;
   @Prop({ type: Number, required: true })
   price: number;
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   image: string;
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
