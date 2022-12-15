@@ -8,7 +8,7 @@ import { Response } from 'express';
 export class NoticeController {
   constructor(private noticeService: NoticeService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/')
   async getListNotice(@Query('userId') userId: string, @Res() res: Response) {
     const data = await this.noticeService.getListNotice(userId);

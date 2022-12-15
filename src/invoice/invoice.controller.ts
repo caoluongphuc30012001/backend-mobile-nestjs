@@ -25,7 +25,7 @@ import { Role } from 'src/auth/enums/role.enum';
 export class InvoiceController {
   constructor(private invoiceService: InvoiceService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/:invoiceId')
   async getInvoiceInformation(
     @Param('invoiceId') invoiceId: string,
@@ -37,7 +37,7 @@ export class InvoiceController {
       data,
     });
   }
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/')
   async getInvoices(@Query('isPay') isPay: boolean, @Res() res: Response) {
     const data = await this.invoiceService.getInvoices(isPay);
@@ -47,7 +47,7 @@ export class InvoiceController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/')
   // @Roles(Role.Admin)
   async createInvoice(@Body() invoicePayload: Invoice, @Res() res: Response) {
@@ -58,7 +58,7 @@ export class InvoiceController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Put('/')
   // @Roles(Role.Admin)
   async updateInvoice(
@@ -72,7 +72,7 @@ export class InvoiceController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete('/')
   // @Roles(Role.Admin)
   async deleteInvoice(
@@ -88,7 +88,7 @@ export class InvoiceController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Put('paying')
   async payingInvoice(
     @Body() invoicePayload: PayingInvoice,

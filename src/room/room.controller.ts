@@ -24,7 +24,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 export class RoomController {
   constructor(private roomService: RoomService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/')
   async getListRoom(
     @Query('status') status: string,
@@ -49,7 +49,7 @@ export class RoomController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/promos')
   async getPromos(@Res() res: Response) {
     const data = await this.roomService.getPromos();
@@ -59,7 +59,7 @@ export class RoomController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/:roomId')
   async getRoomInformation(
     @Param('roomId') roomId: string,
@@ -72,7 +72,7 @@ export class RoomController {
     });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('/')
   // @Roles(Role.Admin)
   async createRoom(@Body() roomPayload: CreateRoom, @Res() res: Response) {
@@ -80,7 +80,7 @@ export class RoomController {
     res.status(HttpStatus.OK).send({ code: 0, data });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Put('/')
   // @Roles(Role.Admin)
   async updateRoomInformation(
@@ -94,7 +94,7 @@ export class RoomController {
     });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete('/')
   // @Roles(Role.Admin)
   async deleteRoom(@Body() body: DeleteRoom, @Res() res: Response) {
@@ -105,7 +105,7 @@ export class RoomController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('rent-room')
   async rentRoom(@Body() { roomId, userId }: RentRoom, @Res() res: Response) {
     const data = await this.roomService.rentRoom(roomId, userId);

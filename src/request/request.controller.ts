@@ -21,7 +21,7 @@ import { Request } from './schemas/request.schema';
 export class RequestController {
   constructor(private requestService: RequestService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/')
   async getListRequest(@Res() res: Response) {
     const data = await this.requestService.getListRequest();
@@ -31,7 +31,7 @@ export class RequestController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/:requestId')
   async getRequestInformation(
     @Param('requestId') requestId: string,
@@ -41,7 +41,7 @@ export class RequestController {
     res.status(HttpStatus.OK).send(data);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/')
   async createRequest(@Body() requestPayload: Request, @Res() res: Response) {
     const data = await this.requestService.createRequest(requestPayload);
@@ -51,7 +51,7 @@ export class RequestController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Put()
   async updateRequest(
     @Body() requestPayload: UpdateRequest,
@@ -64,7 +64,7 @@ export class RequestController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete()
   async deleteRequest(
     @Body() { requestId }: DeleteRequest,

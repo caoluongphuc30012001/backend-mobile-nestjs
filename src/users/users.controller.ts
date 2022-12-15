@@ -20,7 +20,7 @@ import { Role } from 'src/auth/enums/role.enum';
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/')
   // @Roles(Role.Admin)
   async getAllUsers(@Res() res: Response) {
@@ -31,7 +31,7 @@ export class UserController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/:userId')
   async getUserInformation(
     @Param('userId') userId: string,
@@ -44,7 +44,7 @@ export class UserController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/')
   async findUser(
     @Query('phoneNumber') phoneNumber: string,
