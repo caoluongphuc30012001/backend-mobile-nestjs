@@ -28,7 +28,7 @@ export class RequestService {
       const rs = await this.noticeService.createNotice(noticePayload);
       return rs;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -40,7 +40,7 @@ export class RequestService {
       );
       return 'Update Request successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -55,7 +55,7 @@ export class RequestService {
         });
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -72,7 +72,7 @@ export class RequestService {
         });
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
   async deleteRequest(requestId: string): Promise<string> {
@@ -80,7 +80,7 @@ export class RequestService {
       await this.requestModel.findByIdAndDelete(requestId);
       return 'Delete request successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 }

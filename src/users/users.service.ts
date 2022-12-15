@@ -25,7 +25,7 @@ export class UserService {
       await this.userModel.create(userPayload);
       return 'Create user successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -36,7 +36,7 @@ export class UserService {
       const user = await this.userModel.findById(userId).select('-password');
       return user;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -74,7 +74,7 @@ export class UserService {
       ]);
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -85,8 +85,9 @@ export class UserService {
       return await this.userModel
         .findOne({ phoneNumber: phoneNumber })
         .select('-password');
-    } catch (error) {}
-    return 'Something failed';
+    } catch (error) {
+      return error.message;
+    }
   }
 
   async modifyUserInformation(
@@ -97,7 +98,7 @@ export class UserService {
       await this.userModel.findByIdAndUpdate(userId, userPayload);
       return 'Modify user information successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 

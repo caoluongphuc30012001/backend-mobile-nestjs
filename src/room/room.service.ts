@@ -20,7 +20,7 @@ export class RoomService {
       await this.roomModel.create(roomCreate);
       return 'Create room successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -88,7 +88,7 @@ export class RoomService {
         return data;
       }
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -105,7 +105,7 @@ export class RoomService {
         .select('-description -user');
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -117,7 +117,7 @@ export class RoomService {
       });
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -126,7 +126,7 @@ export class RoomService {
       await this.roomModel.findByIdAndUpdate(roomPayload.roomId, roomPayload);
       return 'Modify room information successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -135,7 +135,7 @@ export class RoomService {
       await this.roomModel.findByIdAndDelete(roomId);
       return 'Delete room successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -154,7 +154,7 @@ export class RoomService {
       const rs = await this.noticeService.createNotice(noticePayload);
       return rs;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 }

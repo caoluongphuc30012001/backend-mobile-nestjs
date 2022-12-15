@@ -27,7 +27,7 @@ export class NoticeService {
       const data = await this.noticeModel.find({ user: userId });
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 

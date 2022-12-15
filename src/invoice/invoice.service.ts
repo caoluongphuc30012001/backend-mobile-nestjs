@@ -34,7 +34,7 @@ export class InvoiceService {
       const rs = await this.noticeService.createNotice(noticePayload);
       return rs;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -46,7 +46,7 @@ export class InvoiceService {
       );
       return 'Update invoice successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -64,7 +64,7 @@ export class InvoiceService {
       });
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -75,7 +75,7 @@ export class InvoiceService {
         .populate('room');
       return data;
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 
@@ -84,7 +84,7 @@ export class InvoiceService {
       await this.invoiceModel.findByIdAndDelete(invoiceId);
       return 'Delete Invoice successfully';
     } catch (error) {
-      return 'Something failed';
+      return error.message;
     }
   }
 }
