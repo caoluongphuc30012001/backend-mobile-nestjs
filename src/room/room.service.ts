@@ -111,7 +111,10 @@ export class RoomService {
 
   async getRoomInformation(roomId: string): Promise<Room | string | null> {
     try {
-      const data = await this.roomModel.findById(roomId).populate('user');
+      const data = await this.roomModel.findById(roomId).populate({
+        path: 'user',
+        select: '-password -role',
+      });
       return data;
     } catch (error) {
       return 'Something failed';

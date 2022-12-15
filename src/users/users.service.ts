@@ -103,9 +103,11 @@ export class UserService {
 
   async validate(phoneNumber: string, password: string): Promise<any> {
     try {
-      const user = await this.userModel.findOne({
-        phoneNumber: phoneNumber,
-      });
+      const user = await this.userModel
+        .findOne({
+          phoneNumber: phoneNumber,
+        })
+        .select('role _id');
       if (user) {
         const check = await bcrypt.compare(password, user.password);
         if (check) return user;

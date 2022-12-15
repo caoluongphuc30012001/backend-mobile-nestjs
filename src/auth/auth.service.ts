@@ -28,7 +28,7 @@ export class AuthService {
         },
         { expiresIn: '300s' },
       );
-      return { accessToken, refreshToken };
+      return { accessToken, refreshToken, user: data };
     } else {
       return null;
     }
